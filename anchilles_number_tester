@@ -1,0 +1,117 @@
+#include<iostream>
+using std::cout; using std::cin; using std::endl;
+using std::boolalpha;
+#include<cmath>
+using std::pow; using std::log; using std::sqrt;
+ 
+//is n prime?
+bool is_prime(long n){
+ 
+    //If the number is even (and not 2) its not prime
+    if(  (n == 1) | ((n != 2) && (!(n % 2)))){
+        return 0;}
+ 
+    //If the number has no remainder when divided by a smaller odd number its not prime
+    //The largest potential divisor is the (sqrt of n) +1
+    for(long divisor(3); divisor < (sqrt(n) + 1); divisor += 2){
+        if (!(n % divisor)){
+            return 0;}
+    }
+ 
+    //otherwise, its prime
+    return 1;
+}
+ 
+//is n powerful?
+bool is_powerful (long n){
+ 
+    //if its prime, its not powerful
+    if (is_prime(n)){
+        return 0;}
+    else{
+ 
+        //for every number between 2 and the number
+        for(long factor(2); factor < n; ++factor){
+            //if the number is a factor
+            if(!(n % factor)){
+                    //if the factor is prime
+                    if (is_prime(factor)){
+                        //and the factor's square isn't a factor
+                        if(n % (factor*factor)){
+                            //the number isn't powerful
+                            return 0;
+                        }
+                    }
+                }
+            }
+ 
+        //if every prime factor's square is a factor, return true
+        return 1;
+    }
+}
+ 
+ 
+//is n a perfect power?
+bool is_perfect_power (long n){
+    long root;
+ 
+    // the largest power something could be raised by is 2^(power)
+    double max = (1/log(2)); //part of the conversion
+ 
+    for(long power = 2; power < ((log(n)*max)+1); power++){
+        root = round(pow(n, 1.0/power));
+        if (pow(root,power) == n) {
+            return 1;
+        }
+    }
+    
+    return 0;
+    /*for(int guess(2); guess < n; ++guess){
+            //if the guess is a factor
+            if(!(n % guess)){
+                //and the guess' square is a factor
+                if (!(n % (guess*guess))) {
+ 
+                    //the number is a perfect power if it is a square
+                    if((guess*guess) == n){
+                        return 1;
+                    }
+ 
+                    //also see if a the guess to a power equals the number
+                    for(int exponent(3); pow(guess, exponent) <= n; exponent++){
+                        if (pow(guess, exponent) == n){
+                            return 1;
+                        }
+                    }
+                }
+               
+            }
+    }
+    return 0;
+    */
+}
+ 
+//is n an anchilles number?
+bool is_achilles(long n){
+    //if its powerful and not a perfect power, its an achilles
+    if (is_powerful(n) && !is_perfect_power(n)) {
+        return 1;
+    }
+    //otherwise its not
+    return 0;
+} 
+ 
+int main (){
+  cout << boolalpha;
+ 
+  int test_case;
+  cin >> test_case;
+  cin >> num;
+ 
+  cout <<  is_prime(num) << endl;
+  cout << is_powerful(num) << endl;
+  cout << is_perfect_power(num) << endl;
+  cout << is_achilles(num) << endl;
+    
+  } // of switch
+} // of main
