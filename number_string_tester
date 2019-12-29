@@ -1,0 +1,145 @@
+#include<iostream>
+using std::cout; using std::cin; using std::endl; using std::boolalpha;
+#include<string>
+using std::string;
+#include<cctype>
+using std::isdigit; using std::isalpha;
+ 
+//make sure that the start of the string has the correct prefix
+//takes the string, the length of the prefix, and the prefix to look for
+bool prefix_check(std::string entry, int length, std::string prefix){
+    int start_index(0); //the start of the prefix
+ 
+    //if there is a negative sign, look for the prefix to the right
+    if (entry.substr(0,1) == "-")
+        start_index += 1;
+ 
+    //see if the prefixes match
+    bool is_equal = (entry.substr(start_index,length) == prefix);
+    return is_equal;
+}
+ 
+ 
+//make sure the string contains the correct characters
+//takes the string, the prefix length, and a string of acceptible characters
+bool correct_characters_check(std::string entry, int start_index, 
+std::string acceptable_characters){
+ 
+        //if the number starts with a negative sign, look at the number
+        //past the number sign and the prefix
+        if (entry.substr(0,1) == "-")
+            start_index += 1;
+ 
+        //look at every character in the number
+        for(char letter: entry.substr(start_index)){
+            //check that the character is allowed
+            if(acceptable_characters.find(letter) != std::string::npos){
+                
+            }
+            else
+            {
+                return false;
+            }
+        }
+ 
+    //if all the characters were acceptible, return true
+    return true;
+}
+ 
+//see if the word corresponds to a hexadecimal number
+bool valid_hex(std::string entry){
+    //if the string starts with 0x or -0x
+    if(prefix_check(entry, 2, "0x") &&
+    //and contains acceptable characters
+    correct_characters_check(entry, 2, "0123456789abcde-f")){
+            //its a hex
+            return true;
+    }
+    return false;
+ 
+}
+ 
+//is the number an octal?
+bool valid_octal (string entry){
+    //the string is an octal if it contains the appropriate prefix and characters
+      if(prefix_check(entry, 1, "0") &&
+      correct_characters_check(entry, 2, "01234567-")){
+            return true;
+    }
+    return false;
+}
+ 
+//is the number a binary?
+bool valid_binary(string entry){
+    //the string is a binary if it contains the appropriate prefix and characters
+    if(prefix_check(entry, 2, "0b")&&
+    correct_characters_check(entry, 2, "01-")){
+        return true;
+    }      
+    return false;
+}
+ 
+//is the number an int?
+bool valid_int(string entry){
+    //the string is an int if it contains the appropriate characters
+    if(correct_characters_check(entry, 0, "0123456789-")){
+        return true;
+    }
+    return false;
+}
+ 
+//is the number a float?
+bool valid_float(string entry){
+    //its a float if
+    if (//it has only one "."
+        (entry.substr(entry.find(".")+1).find(".")) == string::npos && 
+        //and it either doesn't have an "e"
+        (entry.find("e")== string::npos || 
+        //or it has only one "e" with a valid integer power
+        (entry.substr(entry.find("e")+1).find("e") == string::npos
+        && valid_int(entry.substr(entry.find("e")+1)))) && 
+        //and the string isn't an int
+        !valid_int(entry) && 
+        //and it has only acceptalbe characters
+        correct_characters_check(entry, 0, "0123456789.e-")){
+                return true;
+        }
+    
+    return false;
+}
+ 
+//return a string that classifies string as a number
+std::string classify_string(string entry){
+    //check to see if it matches numbers with prefixes first,
+    //so it doesnt think an octal is an integer
+    if(valid_binary(entry))
+        return "binary";
+    else if(valid_hex(entry))
+        return "hexadecimal";
+    else if(valid_octal(entry))
+        return "octal";
+    else if(valid_int(entry))
+        return "integer";
+    else if(valid_float(entry))
+        return "float";
+    else
+        //if its none of the above
+        return "false";
+    }
+ 
+int main (){
+  cout << boolalpha;
+  int testnum;
+  cin >> testnum;
+
+  string to_test;
+  cin >> to_test;
+    
+  cout << valid_hex(to_test) << endl;
+  cout << valid_octal(to_test) << endl;
+  cout << valid_binary(to_test) << endl;
+  cout << valid_float(to_test) << endl;
+  cout << valid_int(to_test) << endl;
+  cout << classify_string(to_test) << endl;
+
+}// of main
