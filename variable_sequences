@@ -1,0 +1,65 @@
+#include <iostream> 
+using std::cout; using std::cin; using std::endl; using std::fixed; 
+
+#include <cmath>
+using std::pow; using std::sqrt; using std::floor; 
+
+int main() { 
+    int first_num(0); 
+    int second_num(0); 
+
+//Input the numbers 
+    std::cin >> first_num >> second_num; 
+    
+        //If the second number is smaller, return an error 
+        if(first_num > second_num){ 
+            std::cout << "Error"; 
+        } 
+
+        //If the first number is smaller, determine the sequences 
+        else{ 
+
+            //Store the highest/longest sequences and their starting numbers 
+                long longest_seq(0); 
+                long largest_num(0); 
+                int longest_seq_start_num(first_num); 
+                int largest_num_start_num(first_num); 
+
+            //Cycle through all the numbers between the first and second number 
+                for(; first_num <= second_num; ++first_num){ 
+                
+                //Save the current term in the sequence 
+                    long current_term(first_num); 
+                    long seq_size(0); 
+
+                //Generate the sequence for each number 
+                    while(current_term > 1){ 
+
+                        //If the current term is even //Take square root //If the current term is odd //Take the power to 3/2 
+                        current_term = ((current_term % 2 == 0) ?  
+                            static_cast<long>(floor(sqrt(current_term))) :  
+                            static_cast<long>(floor(pow((current_term),1.5)))); 
+                            //std::cout << "next_seq " << current_term << endl; 
+
+                        //Count the new term 
+                        seq_size += 1; 
+                        
+                        //If the current term is the largest, save it and the term that started the sequence 
+                        largest_num_start_num = (current_term > largest_num) ? first_num: largest_num_start_num;  
+                        largest_num = (largest_num < current_term) ? current_term: largest_num; 
+                    } 
+
+                //If the current sequence is the longest, save it and the start term 
+                    longest_seq_start_num = (seq_size > longest_seq) ? first_num: longest_seq_start_num; 
+                    longest_seq = (longest_seq < seq_size) ? seq_size: longest_seq;  
+                } 
+  
+
+            //print out the numbers and start terms 
+            std::cout << longest_seq_start_num << " " << longest_seq << endl; 
+            std::cout << largest_num_start_num << " " << largest_num <<endl;
+
+        } 
+
+return(0); 
+} 
