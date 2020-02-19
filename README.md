@@ -1,4 +1,4 @@
-# introductory_cpp_programs
+# miscellaneous_cpp_programs
 This repository contains 11 C++ projects using concepts such as classes, pointers, memory management, lambda functions, and initializer lists. The projects in this file are as follows:
 
 •	image_convolution:
