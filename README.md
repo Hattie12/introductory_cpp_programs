@@ -28,5 +28,5 @@ This repository contains 11 C++ projects using concepts such as classes, pointer
 •	hello_world_c-:
   An introductory C++ hello world program.
   
-  ***I wrote these programs a long time ago and I can't find the header files for a couple of them. I also cannot find the exact prompts. I created these programs for a CS class taught by Bill Punch. 
+  ***I wrote these programs a long time ago and I can't find the header files for a couple of them. I also cannot find the exact prompts. I created these programs for a CS class taught by Bill Punch. Any code that I didn't write was removed.
 
